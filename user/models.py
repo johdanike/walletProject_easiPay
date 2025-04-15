@@ -1,0 +1,20 @@
+# from django.core.validators import FileExtensionValidator
+from django.core.validators import FileExtensionValidator
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    phone = models.CharField(max_length=11, unique=True)
+    email = models.EmailField(unique = True)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(
+        upload_to='uploads/', null=True, blank=True,
+        validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'gif'])]
+    )
+
+    address = models.TextField(null = True, blank = True)
+    nin = models.CharField(max_length=11, null = True)
+    bvn = models.CharField(max_length=11, null = True)
