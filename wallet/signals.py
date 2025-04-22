@@ -3,4 +3,11 @@ from django.conf import settings
 from django.dispatch import receiver
 from .models import Wallet
 
-def createWallet(user):
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_wallet(sender, instance, created, **kwargs):
+    if created:
+        Wallet.objects.create(
+            user=instance,
+            account_number=instance.phone[1:]
+        )
+
