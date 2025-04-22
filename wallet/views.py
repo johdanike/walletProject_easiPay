@@ -24,7 +24,7 @@ def greeting(request, name):
     return render(request, 'hello.html', {'name': name})
 
 
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def fund_wallet(request):
     data = FundSerializer(data=request.data)
